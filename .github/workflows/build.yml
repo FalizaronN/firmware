@@ -1,0 +1,25 @@
+name: Custom Bruce Build
+on: [workflow_dispatch] # Это создаст кнопку запуска
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Run Build
+        run: pio run -e custom_s3_gmt130
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware-bruce-gmt130
+          path: .pio/build/custom_s3_gmt130/firmware.bin
